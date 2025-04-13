@@ -1,0 +1,25 @@
+.qodo
+
+# Build directories
+build/
+out/
+
+# IDE files
+.vscode/
+.idea/
+
+# Compiled files
+*.o
+*.obj
+*.exe
+*.out
+*.app
+
+# User configuration files
+.libertymind/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt

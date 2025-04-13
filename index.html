@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthara - Complete User Guide</title>
+    <style>
+        /* Base Typography */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background);
+            letter-spacing: 0.01em;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            font-feature-settings: "kern" 1, "liga" 1;
+        }
+
+        /* Main Content Container */
+        .container {
+            width: 100%;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Typography Scale */
+        h1 { font-size: 1.35rem; font-weight: 400; margin: 0 0 0.75rem; letter-spacing: -0.01em; }
+        h2 { font-size: 1.15rem; font-weight: 400; margin: 2rem 0 0.75rem; letter-spacing: -0.005em; }
+        h3 { font-size: 0.9rem; font-weight: 500; margin: 1.5rem 0 0.5rem; }
+        h4 { font-size: 0.8rem; font-weight: 500; margin: 1rem 0 0.5rem; }
+        p, li { font-size: 0.8rem; margin: 0 0 0.75rem; line-height: 1.6; }
+
+        /* Color System */
+        :root {
+            --primary: #3182ce;
+            --text: #1a202c;
+            --text-light: #718096;
+            --background: #fff;
+            --surface: #f8fafc;
+            --border: #edf2f7;
+            --accent: #4299e1;
+            --subtle: #f7fafc;
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --primary: #63b3ed;
+            --text: #f7fafc;
+            --text-light: #a0aec0;
+            --background: #171923;
+            --surface: #1a202c;
+            --border: #2d3748;
+            --accent: #4299e1;
+            --subtle: #1a202c;
+        }
+
+        /* Theme Transition */
+        body {
+            transition: all 0.3s ease;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 0.75rem;
+            right: 0.75rem;
+            cursor: pointer;
+            background-color: var(--background);
+            border-radius: 50%;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+        .theme-toggle:hover {
+            color: var(--primary);
+        }
+        .theme-toggle .sun {
+            display: none;
+        }
+
+        /* Header */
+        header {
+            padding: 3rem 5% 1.5rem;
+            text-align: center;
+            background-color: var(--background);
+        }
+        header h1 {
+            color: var(--primary);
+        }
+        header p {
+            color: var(--text-light);
+            margin: 0;
+            font-size: 0.8rem;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 0.75rem 0;
+            background-color: var(--background);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid var(--border);
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.25rem;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.7rem;
+            transition: all 0.15s ease;
+            padding: 0.2rem 0.3rem;
+            letter-spacing: 0.02em;
+        }
+        nav a:hover {
+            color: var(--primary);
+        }
+        .subtle-link {
+            opacity: 0.6;
+        }
+        .subtle-link:hover {
+            opacity: 1;
+        }
+
+        /* Content Sections */
+        .section {
+            padding: 3rem 5%;
+            margin: 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        /* Content Elements */
+        .feature-box {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        .note {
+            padding: 0.6rem 0.8rem;
+            border-left: 1px solid var(--accent);
+            margin: 1.25rem 0 1.5rem;
+            color: var(--text-light);
+            background-color: var(--surface);
+            font-size: 0.7rem;
+            border-radius: 0 2px 2px 0;
+            line-height: 1.5;
+        }
+
+        /* Code */
+        code {
+            font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace;
+            font-size: 0.7rem;
+            color: var(--primary);
+        }
+        pre {
+            background-color: var(--surface);
+            padding: 0.6rem 0.8rem;
+            overflow-x: auto;
+            border-radius: 2px;
+            margin: 1.25rem 0;
+            border: 1px solid var(--border);
+        }
+
+        /* Lists */
+        .steps {
+            counter-reset: step-counter;
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .steps li {
+            position: relative;
+            padding-left: 1.1rem;
+            margin-bottom: 1.1rem;
+        }
+        .steps li::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.7rem;
+            line-height: 1.5;
+        }
+        ul {
+            padding-left: 1.1rem;
+            margin-bottom: 1.1rem;
+        }
+        li strong {
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        /* Tables */
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            margin: 1.25rem 0;
+            font-size: 0.7rem;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        th, td {
+            text-align: left;
+            padding: 0.5rem 0.7rem;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            font-weight: 500;
+            color: var(--primary);
+            background-color: var(--surface);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        tr:nth-child(even) {
+            background-color: var(--surface);
+        }
+
+        /* Keyboard Keys */
+        .keyboard-key {
+            display: inline-block;
+            font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.25rem;
+            border-radius: 2px;
+            background-color: var(--surface);
+            color: var(--primary);
+            border: 1px solid var(--border);
+            margin: 0 0.1rem;
+        }
+
+        /* Markdown Preview */
+        .markdown-preview {
+            padding: 1rem;
+            margin: 1.25rem 0;
+            background-color: var(--surface);
+            border-radius: 3px;
+            border: 1px solid var(--border);
+            font-size: 0.7rem;
+        }
+        .markdown-preview h1 {
+            font-size: 1rem;
+            margin-top: 0;
+            margin-bottom: 0.6rem;
+            color: var(--primary);
+        }
+        .markdown-preview h2 {
+            font-size: 0.9rem;
+            margin: 1rem 0 0.5rem;
+            color: var(--primary);
+        }
+        .markdown-preview h3 {
+            font-size: 0.8rem;
+            margin: 0.8rem 0 0.4rem;
+            color: var(--text);
+        }
+        .markdown-preview p {
+            margin-bottom: 0.6rem;
+            line-height: 1.6;
+        }
+        .markdown-preview hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 0.8rem 0;
+        }
+
+        /* Footer */
+        footer {
+            padding: 1.25rem 5%;
+            background-color: var(--background);
+            color: var(--text-light);
+            text-align: center;
+            font-size: 0.65rem;
+        }
+        footer p {
+            margin: 0;
+            line-height: 1.5;
+        }
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.15s ease;
+            padding: 0.1rem 0.2rem;
+        }
+        footer a:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <div class="theme-toggle" id="theme-toggle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </div>
+    <header>
+        <h1>Synthara</h1>
+        <p>Terminal-based LLM interface</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#setup">Setup</a></li>
+            <li><a href="#using-chat">Chat</a></li>
+            <li><a href="#api-integration">API</a></li>
+            <li><a href="#markdown-export">Export</a></li>
+            <li><a href="#theme-customization">Themes</a></li>
+            <li><a href="#company-info">About</a></li>
+            <li><a href="#troubleshooting">Help</a></li>
+            <li><a href="#support" class="subtle-link">Support</a></li>
+        </ul>
+    </nav>
+
+    <section id="getting-started" class="section">
+        <h2>Getting Started</h2>
+        <div class="feature-box">
+            <h3>Launching Synthara</h3>
+            <p>Synthara is a terminal-based application for interacting with language models from your command line.</p>
+
+            <pre><code>cd build
+./synthara</code></pre>
+
+            <h3>Navigation</h3>
+            <ul>
+                <li><span class="keyboard-key">↑</span>/<span class="keyboard-key">↓</span> Move between options</li>
+                <li><span class="keyboard-key">Enter</span> Select option</li>
+                <li><span class="keyboard-key">F10</span> Exit application</li>
+            </ul>
+
+            <h3>Main Menu</h3>
+            <ul>
+                <li><strong>Select Provider</strong> - Google</li>
+                <li><strong>Select Model</strong> - Choose language model</li>
+                <li><strong>Set API Key</strong> - Enter API credentials</li>
+                <li><strong>Set API Token</strong> - Enter authentication token</li>
+                <li><strong>Configure Port</strong> - Set connection port (default: 8080)</li>
+                <li><strong>Start Chat</strong> - Begin conversation</li>
+                <li><strong>Set System Message</strong> - Configure AI instructions</li>
+                <li><strong>Customize Theme</strong> - Select theme (Light/Dark/System) or customize colors</li>
+                <li><strong>Company Info</strong> - About LibertyMind</li>
+                <li><strong>Exit</strong> - Close application</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="setup" class="section">
+        <h2>Setting Up</h2>
+        <ol class="steps">
+            <li>
+                <strong>Select Provider</strong>
+                <p>Choose "Google" from the provider menu.</p>
+            </li>
+            <li>
+                <strong>Set API Key</strong>
+                <p>Enter your Google API key.</p>
+                <div class="note">
+                    API key and token required for access
+                </div>
+            </li>
+            <li>
+                <strong>Configure Port</strong>
+                <p>Default port is 8080. Change in settings if needed.</p>
+            </li>
+            <li>
+                <strong>Select Model</strong>
+                <p>Choose from available Google models:</p>
+                <ul>
+                    <li>Gemini 1.5 Pro - Long context model</li>
+                    <li>Gemini 1.5 Flash - Faster, efficient model</li>
+                    <li>Gemini 2.0 Flash-Lite - Cost-effective model</li>
+                </ul>
+            </li>
+        </ol>
+    </section>
+
+    <section id="api-integration" class="section">
+        <h2>API Integration</h2>
+        <div class="feature-box">
+            <h3>Google API Integration</h3>
+            <p>Synthara integrates with Google's language models through their API.</p>
+
+            <h3>Features</h3>
+            <ul>
+                <li>Error handling with meaningful messages</li>
+                <li>Clean response parsing and display</li>
+                <li>Input sanitization for reliable communication</li>
+                <li>Background processing for responsive UI</li>
+            </ul>
+
+            <h3>Connection Settings</h3>
+            <ul>
+                <li><strong>API Token</strong> - Required for authentication</li>
+                <li><strong>Port</strong> - Default: 8080 (configurable)</li>
+            </ul>
+
+            <h3>Models</h3>
+            <ul>
+                <li>Gemini 1.5 Pro</li>
+                <li>Gemini 1.5 Flash</li>
+                <li>Gemini 2.0 Flash-Lite</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="using-chat" class="section">
+        <h2>Using the Chat</h2>
+        <div class="feature-box">
+            <h3>Chat Session</h3>
+            <p>After setup, select "Start Chat" from the main menu to begin.</p>
+
+            <h3>Controls</h3>
+            <ul>
+                <li><span class="keyboard-key">Enter</span> Send message</li>
+                <li><span class="keyboard-key">Esc</span> Return to menu</li>
+                <li><span class="keyboard-key">M</span> Export to Markdown</li>
+                <li><span class="keyboard-key">Backspace</span> Delete text</li>
+            </ul>
+
+            <h3>System Message</h3>
+            <p>Configure AI behavior with a system message:</p>
+            <ol>
+                <li>Select "Set System Message" from menu</li>
+                <li>Enter instructions</li>
+                <li>Press <span class="keyboard-key">Enter</span> to save</li>
+            </ol>
+            <div class="note">Example: "You are a helpful assistant that explains technical concepts simply."</div>
+        </div>
+    </section>
+
+    <section id="markdown-export" class="section">
+        <h2>Markdown Export Feature</h2>
+        <p>Export your chat history as a Markdown file with a single keystroke.</p>
+
+        <h3>Export Process</h3>
+        <ol class="steps">
+            <li>
+                <strong>During chat</strong>
+                <p>Press <span class="keyboard-key">M</span> to open export dialog</p>
+            </li>
+            <li>
+                <strong>Save location</strong>
+                <p>Enter file path or use default</p>
+            </li>
+            <li>
+                <strong>Complete</strong>
+                <p>Press <span class="keyboard-key">Enter</span> to save</p>
+            </li>
+        </ol>
+        <div class="note">
+            Press <span class="keyboard-key">Esc</span> to cancel export
+        </div>
+
+        <h3>Exported Content</h3>
+        <ul>
+            <li>Title and timestamp</li>
+            <li>System instructions</li>
+            <li>Complete conversation</li>
+            <li>Synthara footer</li>
+        </ul>
+
+        <h3>Example</h3>
+        <div class="markdown-preview">
+            <h1>Synthara Chat Session</h1>
+            <p>Date: 12:53 pm, Sunday, 13 April 2025 (IST)</p>
+            <h2>System Instructions</h2>
+            <p>You are Synthara, a helpful assistant.</p>
+            <h2>Conversation</h2>
+            <h3>User</h3>
+            <p>What is Markdown?</p>
+            <h3>Assistant</h3>
+            <p>Markdown is a lightweight markup language with plain text formatting syntax. It's designed to be easy to read and write, and can be converted to HTML and other formats.</p>
+            <p>Features include headers, emphasis, lists, links, images, and code formatting.</p>
+            <hr>
+            <p>Generated by Synthara</p>
+        </div>
+    </section>
+
+    <section id="theme-customization" class="section">
+        <h2>Theme Customization</h2>
+        <div class="feature-box">
+            <h3>Theme Options</h3>
+            <p>Choose from predefined themes or customize colors to suit your preferences.</p>
+
+            <h3>Theme Selection</h3>
+            <ul>
+                <li><strong>Light Theme</strong> - Clean, bright interface</li>
+                <li><strong>Dark Theme</strong> - Reduced eye strain in low light</li>
+                <li><strong>System Theme</strong> - Follows your system preferences</li>
+            </ul>
+
+            <div class="note">
+                <a href="https://cloud.google.com/support/docs/get-billing-support" target="_blank">Billing Support</a> ·
+                <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> ·
+                <a href="mailto:contact@libertymind.ai">Contact</a>
+            </div>
+
+            <h3>Custom Colors</h3>
+            <ol class="steps">
+                <li>
+                    <strong>Access</strong>
+                    <p>Select "Customize Theme" from main menu</p>
+                </li>
+                <li>
+                    <strong>Elements</strong>
+                    <p>Navigate between interface elements:</p>
+                    <ul>
+                        <li>Header colors</li>
+                        <li>Selected item colors</li>
+                        <li>Message colors</li>
+                        <li>Error colors</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Modify</strong>
+                    <p>Press <span class="keyboard-key">Enter</span> to cycle through colors</p>
+                </li>
+                <li>
+                    <strong>Save</strong>
+                    <p>Select "Save Theme" to apply changes</p>
+                </li>
+            </ol>
+
+            <div class="note">
+                Select "Reset to Default" to restore original colors
+            </div>
+        </div>
+    </section>
+
+    <section id="company-info" class="section">
+        <h2>Company Information</h2>
+        <div class="feature-box">
+            <h3>About LibertyMind</h3>
+            <p>Research service provider and computer software company specializing in AI and natural language processing.</p>
+
+            <h3>Mission</h3>
+            <p>Developing tools that leverage language models to solve problems and enhance productivity.</p>
+
+            <h3>Products</h3>
+            <ul>
+                <li>Synthara - Terminal-based LLM interface</li>
+                <li>LibertyMind API - Enterprise AI integration</li>
+                <li>ResearchAssist - AI-powered research tools</li>
+            </ul>
+
+            <p>Copyright © 2025 LibertyMind - All rights reserved</p>
+
+            <div class="note">
+                Access company information by selecting "Company Info" from the main menu
+            </div>
+        </div>
+    </section>
+
+    <section id="troubleshooting" class="section">
+        <h2>Troubleshooting</h2>
+        <div class="feature-box">
+            <h3>Common Issues</h3>
+
+            <table>
+                <tr>
+                    <th>Issue</th>
+                    <th>Solution</th>
+                </tr>
+                <tr>
+                    <td>API response errors</td>
+                    <td>Verify API key validity and internet connection</td>
+                </tr>
+                <tr>
+                    <td>Invalid API key</td>
+                    <td>Check key correctness and model access permissions</td>
+                </tr>
+                <tr>
+                    <td>Slow/failed responses</td>
+                    <td>Ensure stable internet connection</td>
+                </tr>
+                <tr>
+                    <td>Display issues</td>
+                    <td>Confirm terminal supports ncurses and UTF-8; try resizing</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <section id="support" class="section">
+        <h2>Support Resources</h2>
+        <div class="feature-box">
+            <h3>Available Resources</h3>
+            <ul>
+                <li><strong>Billing Support</strong> - For questions about API usage and billing</li>
+                <li><strong>Privacy Policy</strong> - Information about data handling and privacy</li>
+                <li><strong>Contact</strong> - Reach out to our team for additional assistance</li>
+            </ul>
+
+            <div class="note">
+                For technical issues, please check the troubleshooting section first
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Keyboard Shortcuts</h2>
+        <table>
+            <tr>
+                <th>Key</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td><span class="keyboard-key">↑</span>/<span class="keyboard-key">↓</span></td>
+                <td>Navigate options</td>
+            </tr>
+            <tr>
+                <td><span class="keyboard-key">Enter</span></td>
+                <td>Select option / Send message</td>
+            </tr>
+            <tr>
+                <td><span class="keyboard-key">Esc</span></td>
+                <td>Return to previous screen</td>
+            </tr>
+            <tr>
+                <td><span class="keyboard-key">F10</span></td>
+                <td>Exit application</td>
+            </tr>
+            <tr>
+                <td><span class="keyboard-key">M</span></td>
+                <td>Export to Markdown (in chat)</td>
+            </tr>
+            <tr>
+                <td><span class="keyboard-key">Backspace</span></td>
+                <td>Delete character</td>
+            </tr>
+        </table>
+    </section>
+
+    <footer>
+        <p>
+            <a href="https://cloud.google.com/support/docs/get-billing-support" target="_blank">Billing</a> ·
+            <a href="https://policies.google.com/privacy" target="_blank">Privacy</a> ·
+            <a href="mailto:contact@libertymind.ai">Contact</a>
+        </p>
+        <p>© 2025</p>
+    </footer>
+    </div><!-- end container -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme switcher functionality
+            function setTheme(themeName) {
+                document.documentElement.setAttribute('data-theme', themeName);
+                localStorage.setItem('theme', themeName);
+
+                // Update icon visibility
+                const moonIcon = document.querySelector('.theme-toggle .moon');
+                const sunIcon = document.querySelector('.theme-toggle .sun');
+
+                if (themeName === 'dark') {
+                    moonIcon.style.display = 'none';
+                    sunIcon.style.display = 'block';
+                } else {
+                    moonIcon.style.display = 'block';
+                    sunIcon.style.display = 'none';
+                }
+            }
+
+            // Check for saved theme preference or use system preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+
+            // Set up theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                setTheme(newTheme);
+            });
+        });
+    </script>
+</body>
+</html>
